@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj": {}
+    "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj": {
+    "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj",
+        "projectUniqueName": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj",
         "projectName": "SocketChat.Core",
-        "projectPath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj",
+        "projectPath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.Core\\SocketChat.Core.csproj",
         "packagesPath": "C:\\Users\\anna.tassinari\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.Core\\obj\\",
+        "outputPath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

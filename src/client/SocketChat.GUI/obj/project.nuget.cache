@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PVV/F2W32nM=",
+  "dgSpecHash": "zunV9qhSy9U=",
   "success": true,
-  "projectFilePath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\OneToOne\\src\\client\\SocketChat.GUI\\SocketChat.GUI.csproj",
+  "projectFilePath": "C:\\Users\\anna.tassinari\\Downloads\\SocketChat-OneToOne\\Socketchat-OneToMulti\\src\\client\\SocketChat.GUI\\SocketChat.GUI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

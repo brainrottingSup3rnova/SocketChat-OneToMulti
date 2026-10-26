@@ -16,11 +16,12 @@ public class Server
     private List<Socket> clientHandlerList; //lista di tutti i client connessi
     private int clientCount = 0;
     private byte[] buffer;
+    private Socket listener; //da togliere 
 
     public int Port { get; init; }
     public string HostName { get; init; }
     //public bool IsClientConnected => clientHandler is not null && clientHandler.Connected;
-    public List<bool> clientStatusList;
+    public List<bool> clientStatusList; //lista di tutti gli status dei vari client
 
     public Server(int port, string hostName)
     {
@@ -40,11 +41,9 @@ public class Server
         var hostIP = Dns.GetHostEntry(HostName).AddressList[0];
         var localEndpoint = new IPEndPoint(hostIP, Port);
 
-        Socket listener;
         listener = new Socket(hostIP.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         listener.Bind(localEndpoint);
         listener.Listen(MAX_CONNECTIONS);
-        clientHandlerList.Add(listener);
 
         // Blocca finché un client non si connette
         clientHandler = listener.Accept();
