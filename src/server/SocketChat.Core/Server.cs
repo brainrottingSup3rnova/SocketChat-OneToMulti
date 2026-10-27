@@ -3,6 +3,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,28 +12,33 @@ public class Server
     private const string DEFAULT_HOST_NAME = "localhost";
     private const int BUFFER_SIZE = 1024;
     private const int MAX_CONNECTIONS = 10;
-
-    //private Socket clientHandler;
-    private List<Socket> clientHandlerList; //lista di tutti i client connessi
+    private List<Socket> clientConnected;
     private int clientCount = 0;
-    private byte[] buffer;
-    private Socket listener; //da togliere 
+    private List<byte[]> bufferList;
+    private Socket listener; 
 
     public int Port { get; init; }
     public string HostName { get; init; }
-    //public bool IsClientConnected => clientHandler is not null && clientHandler.Connected;
-    public List<bool> clientStatusList; //lista di tutti gli status dei vari client
+    public List<bool> ClientStatus;
 
     public Server(int port, string hostName)
     {
         this.Port = port;
         this.HostName = hostName ?? DEFAULT_HOST_NAME;
-        ClearBuffer();
+        ClearAllBuffers();
     }
 
-    private void ClearBuffer()
+    private void ClearBuffer(int clientIndex)
     {
-        this.buffer = new byte[BUFFER_SIZE];
+        bufferList[clientIndex] = new byte[BUFFER_SIZE];
+    }
+
+    private void ClearAllBuffers()
+    {
+        for(int i = 0; i < MAX_CONNECTIONS; i++)
+        {
+            bufferList[i] = new byte[BUFFER_SIZE];
+        }
     }
 
     // Configura l'ascolto e attende l'arrivo di un client
@@ -46,12 +52,13 @@ public class Server
         listener.Listen(MAX_CONNECTIONS);
 
         // Blocca finché un client non si connette
-        clientHandler = listener.Accept();
+        clientConnected[clientCount] = listener.Accept();
+        clientCount++;
     }
 
-    public bool TrySendMessage(string msg)
+    public bool TrySendMessage(string msg, int clientIndex)
     {
-        if (!IsClientConnected)
+        if (!ClientStatus[clientIndex])
         {
             return false;
         }
@@ -59,7 +66,7 @@ public class Server
         try
         {
             byte[] raw = Encoding.UTF8.GetBytes(msg);
-            int sent = clientHandler.Send(raw);
+            int sent = clientConnected[clientIndex].Send(raw);
             return sent == raw.Length;
         }
         catch (SocketException)
@@ -98,14 +105,14 @@ public class Server
         });
     }
 
-    public void Close()
+    public void Close(int cliendIndex)
     {
         try
         {
-            if (clientHandler is not null && clientHandler.Connected)
+            if (clientConnected[cliendIndex] is not null && ClientStatus[cliendIndex].Connected)
             {
-                clientHandler.Shutdown(SocketShutdown.Both);
-                clientHandler.Close();
+                clientConnected[cliendIndex].Shutdown(SocketShutdown.Both);
+                clientConnected[cliendIndex].Close();
             }
         }
         catch { }
