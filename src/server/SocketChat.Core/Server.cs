@@ -13,7 +13,6 @@ public class Server
     private const int BUFFER_SIZE = 1024;
     private const int MAX_CONNECTIONS = 10;
     private List<Socket> clientConnected;
-    private int clientCount = 0;
     private List<byte[]> bufferList;
     private Socket listener; 
 
@@ -24,7 +23,7 @@ public class Server
     public Server(int port, string hostName)
     {
         this.Port = port;
-        this.HostName = hostName ?? DEFAULT_HOST_NAME;
+        this.HostName = hostName ?? DEFAULT_HOST_NAME; 
         ClearAllBuffers();
     }
 
@@ -51,14 +50,40 @@ public class Server
         listener.Bind(localEndpoint);
         listener.Listen(MAX_CONNECTIONS);
 
-        // Blocca finché un client non si connette
-        clientConnected[clientCount] = listener.Accept();
-        clientCount++;
+        Task.Run (()=>
+            {
+                while(true)
+                {
+                    clientConnected.Add(listener.Accept());
+                }
+            }
+        );
     }
 
-    public bool TrySendMessage(string msg, int clientIndex)
+    public bool Connected ()
     {
-        if (!ClientStatus[clientIndex])
+        int index = 0;
+        foreach(Socket client in clientConnected)
+        {
+            if(client.Connected)
+            {
+                index++;   
+            }
+        }
+
+        if(index == clientConnected.Count())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool TrySendMessage(string msg)
+    {
+        if (!Connected())
         {
             return false;
         }
@@ -66,7 +91,13 @@ public class Server
         try
         {
             byte[] raw = Encoding.UTF8.GetBytes(msg);
-            int sent = clientConnected[clientIndex].Send(raw);
+            int sent = 0;
+
+            foreach(Socket client in clientConnected)
+            {
+                client.Send(raw);
+            }
+            
             return sent == raw.Length;
         }
         catch (SocketException)
